@@ -1,7 +1,25 @@
 node_modules
+
+dist/
+.cach/
+
 .sass-cache/
 *.css.map
 *.sass.map
 *.scss.map
 
 *.styles/style.css
+.parcel-cache/data.mdb
+*.mdb
+*.txt
+*.txt
+*.mdb
+*.mdb
+.parcel-cache/57b01bbc67f91782.txt
+.parcel-cache/data.mdb
+.parcel-cache/lock.mdb
+*.mdb
+*.mdb
+*.mdb
+*.mdb
+*.txt
