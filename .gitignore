@@ -9,6 +9,7 @@ dist/
 *.scss.map
 
 *.styles/style.css
+.parcel-cache
 .parcel-cache/data.mdb
 *.mdb
 *.txt
@@ -23,3 +24,5 @@ dist/
 *.mdb
 *.mdb
 *.txt
+.parcel-cache/data.mdb
+.parcel-cache/lock.mdb
