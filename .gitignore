@@ -26,3 +26,4 @@ dist/
 *.txt
 .parcel-cache/data.mdb
 .parcel-cache/lock.mdb
+*.mdb
