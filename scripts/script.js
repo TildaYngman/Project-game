@@ -9,8 +9,8 @@ var config = {//What the gameboard is going to look like.
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 0 },
-            debug: false // turn this to true and you will get borders and direction "hit area of object"
+            gravity: { y: 600 },
+            debug: true // turn this to true and you will get borders and direction "hit area of object"
         }
     }
 };
