@@ -53,7 +53,7 @@ randomPlatforms () { // create random platforms
   platforms = this.physics.add.staticGroup(); //Make a group of the platforms, duplicate and add physics
 
     for (let i = 0; i < 8; i++) { //Forloop to create 8 random platforms
-        let randomX = Math.floor(Math.random() * 400) + 24;
+        let randomX = Math.floor(Math.random() * 800) + 24;
         platforms.create(randomX, i * 80, 'platformPng');
       }
    //platforms.setBodySize(80, 280);
