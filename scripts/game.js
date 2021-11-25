@@ -18,15 +18,27 @@ preload () {
 create () {
     background = this.add.image(400, 200, 'background');
     
-    this.randomPlatforms ()
+    platforms = this.physics.add.group( {
+      allowGravity: false, //
+      immovable: true, //
+    });//Make a group of the platforms, duplicate and add physics
+    
+    for (let i = 0; i < 8; i++) { //Forloop to create 8 random platforms
+      let randomX = Math.floor(Math.random() * 800) + 24;
+      platforms.create(randomX, i * 80, 'platformPng');
+    }
 
     player1 = this.physics.add.sprite(400, 250, 'cat');
     player1.setScale(0.05);
     player1.setCollideWorldBounds();
+    player1.body.checkCollision.up = false;
+    player1.body.checkCollision.left = false;
+    player1.body.checkCollision.right = false;
     this.physics.add.collider(player1, platforms);
     player1.setVelocityY(600);
     player1Controls = this.input.keyboard.createCursorKeys();
     this.physics.world.checkCollision.bottom = true; //Checking collison between player and bottom of the world (enable jump)
+
 }
 
 update () {
@@ -45,18 +57,7 @@ CharacterMovement () {
   }
   if (player1Controls.space.isDown && player1.body.onFloor()) {
     player1.setVelocityY(-350);
-    console.log("space is pressed")
+    // console.log("space is pressed")
    }
 }
-
-randomPlatforms () { // create random platforms
-  platforms = this.physics.add.staticGroup(); //Make a group of the platforms, duplicate and add physics
-
-    for (let i = 0; i < 8; i++) { //Forloop to create 8 random platforms
-        let randomX = Math.floor(Math.random() * 800) + 24;
-        platforms.create(randomX, i * 80, 'platformPng');
-      }
-   //platforms.setBodySize(80, 280);
-}
-
 }
