@@ -44,9 +44,11 @@ CharacterMovement () {
   player1.setVelocityX(0);
   if (player1Controls.left.isDown) {
     player1.setVelocityX(-500);
+    player1.flipX = true;
   }
   if (player1Controls.right.isDown) {
     player1.setVelocityX(500);
+    player1.flipX = false;
   }
   if (player1Controls.space.isDown && player1.body.onFloor()) {
     player1.setVelocityY(-350);
