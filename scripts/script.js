@@ -1,6 +1,6 @@
 import Phaser, { Physics } from 'phaser'// Phaser through node
 import Game from './game';
-import Start from './start';
+// import Title from './title';
 
 var config = {//What the gameboard is going to look like.
     type: Phaser.AUTO,// will choose either webGL or canvas as renderer
