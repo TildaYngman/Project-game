@@ -3,7 +3,23 @@ import backgroundimage from "../assets/kitchen.jpg";
 import player from "../assets/cat.png";
 import platform from "../assets/platform2.png";
 
-let background, player1, player1Controls, platforms; 
+let background, player1, player1Controls; 
+
+// let game;
+let platforms;  // a group of platform objects the player will jump on
+let player; // the actual player controlled sprite
+// let cursors;
+let platformCount = 0;
+// let emitter;
+let gameState = false;
+// let particles;
+let playerScore = 0;
+let gameOptions = {
+  width: 800,
+  height: 600,
+  gravity: 800
+}
+
 
 export default class Game extends Phaser.Scene {
 
@@ -18,17 +34,29 @@ preload () {
 create () {
     background = this.add.image(400, 200, 'background');
     
-    this.createPlatforms ()
+    // this.createPlatforms ()
+    this.physics.world.setBounds(0, 0, 600, 800);
+    platforms = this.physics.add.group({
+      allowGravity: false,
+      immovable: true,
+    });
+
+    for (let i = 0; i < 8; i++) {
+      let randomX = Math.floor(Math.random() * 540) + 24;
+      platforms.create(randomX, i * 80, 'platformPng').setScale(.5);
+    };
 
     player1 = this.physics.add.sprite(400, 250, 'cat');
     player1.setScale(0.05);
     player1.setVelocityY(600);
-    player1.setCollideWorldBounds();
+    player1.setCollideWorldBounds(true);
     player1.body.checkCollision.up = false; //up, left and right Make it possible for the player to jump through the platforms
     player1.body.checkCollision.left = false;
     player1.body.checkCollision.right = false;
+
     this.physics.add.collider(player1, platforms);// making a collide between the player and the platforms so the player can stand on top of the platforms
     player1Controls = this.input.keyboard.createCursorKeys();
+    gameState = true;
 
     this.physics.world.checkCollision.bottom = true; //Checking collison between player and bottom of the world (enable jump)
 
@@ -36,7 +64,31 @@ create () {
 
 update () {
 
-  this.CharacterMovement()
+  this.CharacterMovement();
+
+  // While game is running, move each platform down continuously
+  if (gameState == true) {
+    platforms.children.iterate(updateY, this);
+  };
+
+  // With this function, we move the platforms lower until they're off screen and then we reposition
+  // them above the screen to create an endless effect.
+  function updateY(platform){
+    // let delta = Math.floor(gameOptions.height/2) - player.y;  // we want to keep the player somewhere in the center of the screen so we'll measure the difference from the center y
+
+    // if(delta > 0){ 
+    //   platform.y += delta/30; //the delta may be too large so I'll make it smaller by dividing it by 30
+    // }
+
+    if (platform.y > 600){
+      platform.y = -platform.height;
+      platform.x = Math.floor(Math.random() * 540) + 24;
+      platformCount += 1;
+      playerScore +=1;
+    } else { 
+      platform.y += 2;
+    }
+  }
 
 }
 
@@ -51,21 +103,24 @@ CharacterMovement () {
     player1.flipX = false;
   }
   if (player1Controls.space.isDown && player1.body.onFloor()) {
+    console.log(playerScore);
     player1.setVelocityY(-350);
     // console.log("space is pressed")
    }
 }
 
-createPlatforms () {
-  platforms = this.physics.add.group( {
-    allowGravity: false, //
-    immovable: true, //
-  });//Make a group of the platforms, duplicate and add physics
+
+
+// createPlatforms () {
+//   platforms = this.physics.add.group( {
+//     allowGravity: false, //
+//     immovable: true, //
+//   });//Make a group of the platforms, duplicate and add physics
   
-  for (let i = 0; i < 8; i++) { //Forloop to create 8 random platforms
-    let randomX = Math.floor(Math.random() * 800) + 24;
-    platforms.create(randomX, i * 80, 'platformPng');
-  }
-}
+//   for (let i = 0; i < 8; i++) { //Forloop to create 8 random platforms
+//     let randomX = Math.floor(Math.random() * 800) + 24;
+//     platforms.create(randomX, i * 80, 'platformPng');
+//   }
+// }
 
 }
