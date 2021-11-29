@@ -23,9 +23,9 @@ export default class Title extends Phaser.Scene {
             leftEdge: 0,
           };
 
-       this.add.text(positions.centerX, positions.centerY, 'AstroCat!').setOrigin(0.5, 0.5), { fontSize: "20px"} ;
+    //    this.add.text(positions.centerX, positions.centerY, 'AstroCat!').setOrigin(0.5, 0.5), { fontSize: "20px"} ;
 
-        const startGameButton = this.add.text(positions.centerX, positions.centerY + 100, 'Start Game!', { fill: '#FFFFFF', fontSize: 50, color: "#FFFFFF", }).setOrigin(0.5);
+        const startGameButton = this.add.text(positions.centerX, positions.centerY + 100, 'Start Game', { fill: '#FFFFFF', fontSize: 50, color: "#FFFFFF", }).setOrigin(0.5);
         startGameButton.setInteractive({ useHandCursor: true });
 
         this.input.on('pointerdown', () => {
