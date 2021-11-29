@@ -33,7 +33,6 @@ export default class Title extends Phaser.Scene {
             this.scene.start('Game')
         })
 
-        // startGameButton.on('pointerup', () => { this.scene.start('Game'); }); 
     }
 
 }
