@@ -1,6 +1,6 @@
+import Logo from "../assets/ASLogo.png";
 
-
-let positions;
+let positions, Logo;
 
 export default class Title extends Phaser.Scene {
 
@@ -9,7 +9,7 @@ export default class Title extends Phaser.Scene {
     }
 
     preload(){
-
+        this.load.image('logo', Logo);
     }
 
     create(){
@@ -23,9 +23,11 @@ export default class Title extends Phaser.Scene {
             leftEdge: 0,
           };
 
+          Logo = this.add.image(200, 100, 'logo');
+
     //    this.add.text(positions.centerX, positions.centerY, 'AstroCat!').setOrigin(0.5, 0.5), { fontSize: "20px"} ;
 
-        const startGameButton = this.add.text(positions.centerX, positions.centerY + 100, 'Start Game', { fill: '#FFFFFF', fontSize: 50, color: "#FFFFFF", }).setOrigin(0.5);
+        const startGameButton = this.add.text(positions.centerX, positions.centerY + 100, 'Start Game!', { fill: '#FFFFFF', fontSize: 50, color: "#FFFFFF", }).setOrigin(0.5);
         startGameButton.setInteractive({ useHandCursor: true });
 
         this.input.on('pointerdown', () => {
