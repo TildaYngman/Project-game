@@ -1,4 +1,3 @@
-import Phaser from 'phaser'// Phaser through node
 import backgroundimage from "../assets/kitchen.jpg";
 import player from "../assets/cat.png";
 import platform from "../assets/platform2.png";
@@ -6,6 +5,10 @@ import platform from "../assets/platform2.png";
 let background, player1, player1Controls, platforms; 
 
 export default class Game extends Phaser.Scene {
+
+constructor() {
+    super({key: 'Game'});
+}
 
 preload () {
     //What assets does the game need
@@ -31,7 +34,6 @@ create () {
     player1Controls = this.input.keyboard.createCursorKeys();
 
     this.physics.world.checkCollision.bottom = true; //Checking collison between player and bottom of the world (enable jump)
-
 }
 
 update () {
