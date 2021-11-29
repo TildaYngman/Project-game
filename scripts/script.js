@@ -1,4 +1,5 @@
-import phaser from "phaser"
+import {  } from "firebase/app";
+import Phaser from "phaser"
 
 var config = {
     type: Phaser.AUTO,
