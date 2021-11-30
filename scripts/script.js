@@ -1,9 +1,9 @@
 import Phaser, { Physics } from 'phaser';// Phaser through node
 
 // import Game from './Game';
-import Title from './Title';
-import Game from './Game';
-import GameOver from './GameOver';
+import Title from './title.js';
+import Game from './game.js';
+import GameOver from './GameOver.js';
 
 var config = {//What the gameboard is going to look like.
     type: Phaser.AUTO,// will choose either webGL or canvas as renderer
