@@ -38,14 +38,14 @@ create () {
     background = this.add.image(400, 200, 'background');
     
     // this.createPlatforms ()
-    this.physics.world.setBounds(0, 0, 600, 800);
+    this.physics.world.setBounds(0, 0, 800, 600);
     platforms = this.physics.add.group({
       allowGravity: false,
       immovable: true,
     });
 
     for (let i = 0; i < 8; i++) {
-      let randomX = Math.floor(Math.random() * 540) + 24;
+      let randomX = Math.floor(Math.random() * 740) + 24;
       platforms.create(randomX, i * 80, 'platformPng').setScale(1);
     };
 
@@ -67,8 +67,8 @@ create () {
 
     this.anims.create({
       key: 'jump',
-      frames: this.anims.generateFrameNumbers('mainCharacter', { start: 10, end: 11 }),
-      frameRate: 10,
+      frames: this.anims.generateFrameNumbers('mainCharacter', { start: 10, end: 10 }),
+      frameRate: 5,
       repeat: -1
     })
 
@@ -92,6 +92,7 @@ update () {
 
   this.CharacterMovement();
   // player1.anims.play('idle', true);
+  
 
   // While game is running, move each platform down continuously
   if (gameState == true) {
@@ -109,7 +110,7 @@ update () {
 
     if (platform.y > 600){
       platform.y = -platform.height;
-      platform.x = Math.floor(Math.random() * 540) + 24;
+      platform.x = Math.floor(Math.random() * 740) + 24;
       platformCount += 1;
       playerScore +=1;
     } else { 
@@ -130,6 +131,8 @@ CharacterMovement () {
       player1.setVelocityX(500);
       player1.anims.play('run', true);
       player1.flipX = false;
+    } else if ((!player1.body.onFloor())){
+      player1.anims.play('jump', true);
     } else {
       player1.setVelocityX(0);
       player1.anims.play('idle', true);
@@ -141,6 +144,7 @@ CharacterMovement () {
       player1.setVelocityY(-350);
       // console.log("space is pressed")
     }
+    
     //  if (player1.body.touching.down){
     //   player1.anims.play('jump', true);
     // }
