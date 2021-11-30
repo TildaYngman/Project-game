@@ -1,6 +1,8 @@
-
+import backgroundSpace from '../assets/8space.png';
 
 let positions;
+let spaceBackground;
+
 
 export default class Title extends Phaser.Scene {
 
@@ -9,10 +11,25 @@ export default class Title extends Phaser.Scene {
     }
 
     preload(){
-
+        this.load.spritesheet('space', backgroundSpace, {
+            frameWidth: 1024,
+            frameHeight: 1024
+          });
+        
     }
 
     create(){
+        spaceBackground = this.add.sprite(400, 300, 'space')
+  
+        this.anims.create({
+        key: 'backgroundAnim',
+            frames:this.anims.generateFrameNumbers('space', { start: 0, end: 4}),
+            framerate: 10,
+            repeat: -1
+        });
+
+        spaceBackground.anims.play('backgroundAnim', true);
+        console.log(background.anims)
 
         positions = {
             centerX: this.physics.world.bounds.width / 2,
