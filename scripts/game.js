@@ -15,11 +15,11 @@ let platformCount = 0;
 let gameState = false;
 // let particles;
 let playerScore = 0;
-let gameOptions = {
-  width: 800,
-  height: 600,
-  gravity: 800
-}
+// let gameOptions = {
+//   width: 800,
+//   height: 600,
+//   gravity: 800
+// }
 
 
 export default class Game extends Phaser.Scene {
@@ -29,11 +29,12 @@ preload () {
    this.load.image('background', backgroundimage);
    this.load.image('cat', player);
    this.load.image('platformPng', platform);
-   this.load.spritesheet('mainCharacter', playerSheet, { frameWidth: 102, frameHeight: 112});
+   this.load.spritesheet('mainCharacter', playerSheet, { frameWidth: 102, frameHeight: 110});
 }
 
 
 create () {
+  gameState = true;
     background = this.add.image(400, 200, 'background');
     
     // this.createPlatforms ()
@@ -53,13 +54,13 @@ create () {
     this.anims.create({
       key: 'run',
       frames: this.anims.generateFrameNumbers('mainCharacter', { start: 9, end: 12 }),
-      frameRate: 8,
+      frameRate: 10,
       repeat: -1
     });
 
     this.anims.create({
       key: 'idle',
-      frames: this.anims.generateFrameNumbers('mainCharacter', { start: 0, end: 2 }),
+      frames: this.anims.generateFrameNumbers('mainCharacter', { start: 0, end: 7 }),
       frameRate: 5,
       repeat: -1
     });
@@ -82,7 +83,6 @@ create () {
 
     this.physics.add.collider(player1, platforms);// making a collide between the player and the platforms so the player can stand on top of the platforms
     player1Controls = this.input.keyboard.createCursorKeys();
-    gameState = true;
 
     this.physics.world.checkCollision.bottom = true; //Checking collison between player and bottom of the world (enable jump)
 
@@ -91,7 +91,7 @@ create () {
 update () {
 
   this.CharacterMovement();
-  player1.anims.play('idle', true);
+  // player1.anims.play('idle', true);
 
   // While game is running, move each platform down continuously
   if (gameState == true) {
@@ -121,28 +121,29 @@ update () {
 
 CharacterMovement () {
   player1.setVelocityX(0);
+  if (gameState == true) {
+    if (player1Controls.left.isDown) {
+      player1.setVelocityX(-500);
+      player1.anims.play('run', true);
+      player1.flipX = true;
+    } else if (player1Controls.right.isDown) {
+      player1.setVelocityX(500);
+      player1.anims.play('run', true);
+      player1.flipX = false;
+    } else {
+      player1.setVelocityX(0);
+      player1.anims.play('idle', true);
+    }
 
-  if (player1Controls.left.isDown) {
-    player1.setVelocityX(-500);
-    player1.anims.play('run', true);
-    player1.flipX = true;
-  } else if (player1Controls.right.isDown) {
-    player1.setVelocityX(500);
-    player1.anims.play('run', true);
-    player1.flipX = false;
-  } else {
-    player1.setVelocityX(0);
-    player1.anims.play('idle', true);
-  }
-
-  if (player1Controls.space.isDown && player1.body.onFloor()) {
-    console.log(playerScore);
-    player1.anims.play('jump', true);
-    player1.setVelocityY(-350);
-    // console.log("space is pressed")
-   }
-   if (player1.body.touching.down){
-    player1.anims.play('jump', true);
+    if (player1Controls.space.isDown && player1.body.onFloor()) {
+      console.log(playerScore);
+      player1.anims.play('jump', true);
+      player1.setVelocityY(-350);
+      // console.log("space is pressed")
+    }
+    //  if (player1.body.touching.down){
+    //   player1.anims.play('jump', true);
+    // }
   }
 }
 
