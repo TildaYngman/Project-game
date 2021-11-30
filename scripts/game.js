@@ -37,7 +37,7 @@ preload () {
 
 
 create () {
-  gameState = true;
+  
     background = this.add.image(400, 200, 'background');
     
     // this.createPlatforms ()
@@ -95,6 +95,9 @@ update () {
   this.CharacterMovement();
   // player1.anims.play('idle', true);
   
+  if (player1Controls.space.isDown) {
+    gameState = true;
+  };
 
   // While game is running, move each platform down continuously
   if (gameState == true) {
