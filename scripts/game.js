@@ -2,8 +2,9 @@ import backgroundimage from "../assets/kitchen.jpg";
 import player from "../assets/cat.png";
 import platform from "../assets/platform2.png";
 import playerSheet from "../assets/sheet.png";
+import lavaPool from "../assets/lava.png";
 
-let background, player1, player1Controls; 
+let background, player1, player1Controls, lava; 
 
 // let game;
 let platforms;  // a group of platform objects the player will jump on
@@ -33,6 +34,7 @@ preload () {
    this.load.image('cat', player);
    this.load.image('platformPng', platform);
    this.load.spritesheet('mainCharacter', playerSheet, { frameWidth: 102, frameHeight: 110});
+   this.load.spritesheet('lava', lavaPool, {frameWidth: 800, frameHeight: 110} );
 }
 
 
@@ -74,6 +76,29 @@ create () {
       frameRate: 5,
       repeat: -1
     })
+
+
+    lava = this.physics.add.staticSprite(400, 550, 'lava');
+    this.anims.create({
+      key: 'lavaBoil',
+      frames: this.anims.generateFrameNumbers('lava', { start: 0, end: 7 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    lava.anims.play('lavaBoil', true);
+    lava.setSize(800, 60, true);
+
+    this.physics.add.overlap(player1, lava, () => {
+      this.add.text(300, 360, '      Game Over :(\n  Click to play again.', { fontFamily: 'Arial', fontSize: 20, color: '#000' });
+      this.physics.pause();
+      gameState = false;
+      this.anims.pauseAll();
+      this.input.on('pointerup', () => {
+        this.anims.resumeAll();
+        this.scene.restart();
+      })
+    });
 
     // player1 = this.physics.add.sprite(400, 250, 'catIdle');
     
