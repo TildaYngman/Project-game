@@ -1,4 +1,4 @@
-import backgroundSpace from '../assets/8space.png';
+import backgroundSpace from '../assets/stars.jpeg';
 import Logo from "../assets/ASLogo.png";
 
 let positions, Logo;
@@ -13,8 +13,8 @@ export default class Title extends Phaser.Scene {
 
     preload(){
         this.load.spritesheet('space', backgroundSpace, {
-            frameWidth: 1024,
-            frameHeight: 1024
+            frameWidth: 500,
+            frameHeight: 500
           });
 
         this.load.image('logo', Logo);
@@ -30,6 +30,7 @@ export default class Title extends Phaser.Scene {
         
         spaceBackground = this.add.sprite(400, 300, 'space');
         spaceBackground.setDepth(2);
+        spaceBackground.setScale(1.6);
         spaceBackground.anims.play('backgroundAnim', true);
         console.log(spaceBackground.anims)
 
