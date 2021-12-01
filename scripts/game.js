@@ -100,6 +100,7 @@ create () {
       gameState = false;
       this.anims.pauseAll();
       this.input.on('pointerup', () => {
+        playerScore = 0;
         this.anims.resumeAll();
         this.scene.restart();
       })
