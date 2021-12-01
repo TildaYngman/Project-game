@@ -1,15 +1,9 @@
-<<<<<<< HEAD
-import Logo from "../assets/ASLogo.png";
-
-let positions, Logo;
-=======
 import backgroundSpace from '../assets/8space.png';
 import Logo from "../assets/ASLogo.png";
 
 let positions, Logo;
 let spaceBackground;
 
->>>>>>> background2
 
 export default class Title extends Phaser.Scene {
 
