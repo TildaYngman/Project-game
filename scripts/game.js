@@ -7,6 +7,7 @@ import lavaPool from "../assets/lava.png";
 
 let player1, player1Controls, lava;
 let spaceBackground;
+let spaceBackground2;
 // let game;
 let platforms;  // a group of platform objects the player will jump on
 let player; // the actual player controlled sprite
@@ -53,14 +54,19 @@ create () {
     });
         
     spaceBackground = this.add.sprite(400, 300, 'space');
+    spaceBackground2 = this.add.sprite(400, 800, 'space');
     spaceBackground.setDepth(2);
     spaceBackground.setScale(1.6);
     spaceBackground.anims.play('backgroundAnim', true);
+    spaceBackground2.setDepth(2);
+    spaceBackground2.setScale(1.6);
+    spaceBackground2.anims.play('backgroundAnim', true);
   
     // background = this.add.image(400, 200, 'background');
     
     // this.createPlatforms ()
     this.physics.world.setBounds(0, 0, 800, 600);
+
     platforms = this.physics.add.group({
       allowGravity: false,
       immovable: true,
@@ -149,6 +155,7 @@ update () {
   // While game is running, move each platform down continuously
   if (gameState == true) {
     platforms.children.iterate(updateY, this);
+    bgCheck();
   };
 
   // With this function, we move the platforms lower until they're off screen and then we reposition
@@ -169,8 +176,17 @@ update () {
       platform.y += 2;
     }
   }
-
+  function bgCheck (){
+    if (spaceBackground.y < -400) {
+      spaceBackground.y = 400;
+      spaceBackground2.y = 800;
+    } else {
+      spaceBackground.y -= 1;
+      spaceBackground2.y -= 1;
+    }
+  }
 }
+
 
 CharacterMovement () {
   player1.setVelocityX(0);
