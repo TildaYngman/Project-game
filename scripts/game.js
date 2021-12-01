@@ -3,8 +3,12 @@ import player from "../assets/cat.png";
 import platform from "../assets/platform2.png";
 import playerSheet from "../assets/sheet.png";
 import lavaPool from "../assets/lava.png";
+import bgMusic from "url:../assets/rainbowtylenol.mp3";
+import jump from "url:../assets/jump.mp3";
+import impact from "url:../assets/impact.mp3"
 
-let background, player1, player1Controls, lava; 
+let background, player1, player1Controls, lava, spaceSound,
+jumpSound, impactSound; 
 
 // let game;
 let platforms;  // a group of platform objects the player will jump on
@@ -35,8 +39,10 @@ preload () {
    this.load.image('platformPng', platform);
    this.load.spritesheet('mainCharacter', playerSheet, { frameWidth: 102, frameHeight: 110});
    this.load.spritesheet('lava', lavaPool, {frameWidth: 800, frameHeight: 110} );
+   this.load.audio("space", bgMusic);
+   this.load.audio("jump", jump);
+   this.load.audio("impact", impact);
 }
-
 
 create () {
   
@@ -92,6 +98,8 @@ create () {
     lava.setSize(800, 60, true);
 
     this.physics.add.overlap(player1, lava, () => {
+      spaceSound.stop();
+      impactSound.play();
       this.add.text(300, 360, '      Game Over :(\n  Click to play again.', { fontFamily: 'Arial', fontSize: 20, color: '#000' });
       this.physics.pause();
       gameState = false;
@@ -101,6 +109,17 @@ create () {
         this.scene.restart();
       })
     });
+
+    // Add the audio files
+    
+    // this.sound = this.sound.add("space", { volume: 0.2 });
+    // this.sound.play();
+
+    spaceSound = this.sound.add('space', { volume: 0.2 });
+    spaceSound.play();
+  
+    jumpSound = this.sound.add("jump", { volume: 0.1 });
+    impactSound = this.sound.add("impact", { volume: 0.5 });
 
     // player1 = this.physics.add.sprite(400, 250, 'catIdle');
     
@@ -121,6 +140,7 @@ update () {
 
   this.CharacterMovement();
   // player1.anims.play('idle', true);
+  
   
   if (player1Controls.space.isDown) {
     gameState = true;
@@ -173,6 +193,7 @@ CharacterMovement () {
     if (player1Controls.space.isDown && player1.body.onFloor()) {
       console.log(playerScore);
       player1.anims.play('jump', true);
+      jumpSound.play();
       player1.setVelocityY(-350);
       // console.log("space is pressed")
     }
