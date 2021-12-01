@@ -1,7 +1,8 @@
 import backgroundSpace from '../assets/stars.jpeg';
 import Logo from "../assets/ASLogo.png";
+import startTheme from "url:../assets/whogivesafuck.mp3";
 
-let positions, Logo;
+let positions, Logo, themeMusic;
 let spaceBackground;
 
 
@@ -18,9 +19,24 @@ export default class Title extends Phaser.Scene {
           });
 
         this.load.image('logo', Logo);
+
+        this.load.audio("theme", startTheme);
     }
 
     create(){
+        // themeMusic = this.sound.add('theme', { volume: 0.2 });
+        // if (!this.sound.locked){
+        //         // already unlocked so play
+        //         themeMusic.play();
+        //     }else{
+        //         // wait for 'unlocked' to fire and then play
+        //         this.sound.once(Phaser.Sound.Events.UNLOCKED, () => {
+        //             themeMusic.play();
+        //         })
+        // }
+        
+        
+
         this.anims.create({
             key: 'backgroundAnim',
             frames:this.anims.generateFrameNumbers('space', { start: 0, end: 4}),
@@ -48,14 +64,20 @@ export default class Title extends Phaser.Scene {
 
     //    this.add.text(positions.centerX, positions.centerY, 'AstroCat!').setOrigin(0.5, 0.5), { fontSize: "20px"} ;
 
+
         const startGameButton = this.add.text(positions.centerX, positions.centerY + 100, 'Start Game!', { fill: '#FFFFFF', fontSize: 50, color: "#FFFFFF", }).setOrigin(0.5);
         startGameButton.setInteractive({ useHandCursor: true })
         startGameButton.setDepth(10);
+        
+        
 
         this.input.on('pointerdown', () => {
             this.scene.stop('Title')
             this.scene.start('Game')
+            // themeMusic.stop();
         })
+
+        
 
     }
     
