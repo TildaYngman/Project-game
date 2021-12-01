@@ -20,4 +20,4 @@ var config = {//What the gameboard is going to look like.
     }
 };
 
-var game = new Phaser.Game(config);
+var Game = new Phaser.Game(config);

@@ -53,6 +53,8 @@ create () {
       let randomX = Math.floor(Math.random() * 740) + 24;
       platforms.create(randomX, i * 80, 'platformPng').setScale(1);
     };
+    
+    platforms.create(400, 120, 'platformPng').setScale(1);
 
     player1 = this.physics.add.sprite(400, 50, 'mainCharacter').setScale(.8);
 
