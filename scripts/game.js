@@ -166,7 +166,7 @@ update () {
       platformCount += 1;
       playerScore +=1;
     } else { 
-      platform.y += 2;
+      platform.y += 1;
     }
   }
 
@@ -183,9 +183,7 @@ CharacterMovement () {
       player1.setVelocityX(500);
       player1.anims.play('run', true);
       player1.flipX = false;
-    } else if ((!player1.body.onFloor())){
-      player1.anims.play('jump', true);
-    } else {
+    }  else {
       player1.setVelocityX(0);
       player1.anims.play('idle', true);
     }
@@ -194,8 +192,12 @@ CharacterMovement () {
       console.log(playerScore);
       player1.anims.play('jump', true);
       jumpSound.play();
-      player1.setVelocityY(-350);
+      player1.setVelocityY(-750);
       // console.log("space is pressed")
+    }
+
+    if (player1Controls.space.isDown) {
+      player1.anims.play('jump', true);
     }
     
     //  if (player1.body.touching.down){
