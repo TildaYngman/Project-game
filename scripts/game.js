@@ -95,6 +95,7 @@ create () {
     this.physics.add.overlap(player1, lava, () => {
       gameOver = this.add.image(400, 300, 'gameover').setOrigin(0.5, 2);
       this.add.text(400, 300, 'Your score is:', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00ff00', fontSize:'50px' }).setOrigin(0.5);
+      this.add.text(400, 300, 'Click to play again', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00ff00', fontSize:'30px' }).setOrigin(0.5, -2);
       this.physics.pause();
       gameState = false;
       this.anims.pauseAll();
