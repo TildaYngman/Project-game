@@ -42,8 +42,8 @@ export default class Title extends Phaser.Scene {
             leftEdge: 0,
           };
 
-          Logo = this.add.image(positions.centerX, positions.centerY, 'logo').setOrigin(0.5, 2);
-          Logo.setDepth(10);
+          Logo = this.add.image(positions.centerX, positions.centerY, 'logo').setOrigin(0.5, 2).setDepth(10);
+          
 
     //    this.add.text(positions.centerX, positions.centerY, 'AstroCat!').setOrigin(0.5, 0.5), { fontSize: "20px"} ;
 
