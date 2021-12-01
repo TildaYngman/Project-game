@@ -3,8 +3,9 @@ import player from "../assets/cat.png";
 import platform from "../assets/platform2.png";
 import playerSheet from "../assets/sheet.png";
 import lavaPool from "../assets/lava.png";
+import gameOver from "../assets/gameover.png";
 
-let background, player1, player1Controls, lava; 
+let background, player1, player1Controls, lava, gameOver; 
 
 // let game;
 let platforms;  // a group of platform objects the player will jump on
@@ -35,11 +36,12 @@ preload () {
    this.load.image('platformPng', platform);
    this.load.spritesheet('mainCharacter', playerSheet, { frameWidth: 102, frameHeight: 110});
    this.load.spritesheet('lava', lavaPool, {frameWidth: 800, frameHeight: 110} );
+   this.load.image('gameover', gameOver);
 }
 
 
 create () {
-  
+
     background = this.add.image(400, 200, 'background');
     
     // this.createPlatforms ()
@@ -79,7 +81,6 @@ create () {
       repeat: -1
     })
 
-
     lava = this.physics.add.staticSprite(400, 550, 'lava');
     this.anims.create({
       key: 'lavaBoil',
@@ -92,7 +93,8 @@ create () {
     lava.setSize(800, 60, true);
 
     this.physics.add.overlap(player1, lava, () => {
-      this.add.text(300, 360, '      Game Over :(\n  Click to play again.', { fontFamily: 'Arial', fontSize: 20, color: '#000' });
+      gameOver = this.add.image(400, 300, 'gameover').setOrigin(0.5, 2);
+      this.add.text(400, 300, 'Your score is:', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00ff00', fontSize:'50px' }).setOrigin(0.5);
       this.physics.pause();
       gameState = false;
       this.anims.pauseAll();
