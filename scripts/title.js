@@ -12,14 +12,11 @@ export default class Title extends Phaser.Scene {
     }
 
     preload(){
-<<<<<<< HEAD
-=======
         this.load.spritesheet('space', backgroundSpace, {
             frameWidth: 1024,
             frameHeight: 1024
           });
 
->>>>>>> background2
         this.load.image('logo', Logo);
     }
 
