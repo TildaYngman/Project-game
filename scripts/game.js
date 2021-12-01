@@ -16,10 +16,13 @@ let platforms;  // a group of platform objects the player will jump on
 let player; // the actual player controlled sprite
 // let cursors;
 let platformCount = 0;
+let difficultyVar = 1;
 // let emitter;
 let gameState = false;
 // let particles;
 let playerScore = 0;
+let shook = false;
+let cam;
 // let gameOptions = {
 //   width: 800,
 //   height: 600,
@@ -51,6 +54,8 @@ preload () {
 }
 
 create () {
+  cam = this.cameras.main.setBounds(0, 0, 600, 650);
+
     this.anims.create({
       key: 'backgroundAnim',
       frames:this.anims.generateFrameNumbers('space', { start: 0, end: 4}),
@@ -70,15 +75,16 @@ create () {
     // background = this.add.image(400, 200, 'background');
     
     // this.createPlatforms ()
-    this.physics.world.setBounds(0, 0, 800, 600);
+    this.physics.world.setBounds(0, 0, 600, 650);
 
     platforms = this.physics.add.group({
       allowGravity: false,
       immovable: true,
     });
+    
 
     for (let i = 0; i < 8; i++) {
-      let randomX = Math.floor(Math.random() * 740) + 24;
+      let randomX = Math.floor(Math.random() * 500) + 40;
       platforms.create(randomX, i * 80, 'platformPng').setScale(1);
     };
     
@@ -105,12 +111,11 @@ create () {
     this.anims.create({
       key: 'jump',
       frames: this.anims.generateFrameNumbers('mainCharacter', { start: 10, end: 10 }),
-      frameRate: 5,
-      repeat: -1
+      frameRate: 10,
+      repeat: 2
     })
 
-
-    lava = this.physics.add.staticSprite(400, 550, 'lava');
+    lava = this.physics.add.staticSprite(300, 620, 'lava');
     this.anims.create({
       key: 'lavaBoil',
       frames: this.anims.generateFrameNumbers('lava', { start: 0, end: 7 }),
@@ -122,10 +127,14 @@ create () {
     lava.setSize(800, 60, true);
     lava.setDepth(10);
 
+    // Lava kills player, reset game
     this.physics.add.overlap(player1, lava, () => {
+      difficultyVar = 1;
+      platformCount = 0;
+      playerScore = 0;
       spaceSound.stop();
       impactSound.play();
-      this.add.text(300, 360, '      Game Over :(\n  Click to play again.', { fontFamily: 'Arial', fontSize: 20, color: '#000' });
+      this.add.text(300, 360, '      Game Over :(\n  Click to play again.', { fontFamily: 'Arial', fontSize: 20, color: '#fff' });
       this.physics.pause();
       gameState = false;
       this.anims.pauseAll();
@@ -164,12 +173,13 @@ create () {
 update () {
 
   this.CharacterMovement();
-  // player1.anims.play('idle', true);
-  
-  
-  if (player1Controls.space.isDown) {
+  playerSticky();
+
+  if (player1Controls.shift.isDown) {
     gameState = true;
   };
+
+  
 
   // While game is running, move each platform down continuously
   if (gameState == true) {
@@ -180,21 +190,17 @@ update () {
   // With this function, we move the platforms lower until they're off screen and then we reposition
   // them above the screen to create an endless effect.
   function updateY(platform){
-    // let delta = Math.floor(gameOptions.height/2) - player.y;  // we want to keep the player somewhere in the center of the screen so we'll measure the difference from the center y
-
-    // if(delta > 0){ 
-    //   platform.y += delta/30; //the delta may be too large so I'll make it smaller by dividing it by 30
-    // }
-
     if (platform.y > 600){
       platform.y = -platform.height;
-      platform.x = Math.floor(Math.random() * 740) + 24;
+      platform.x = Math.floor(Math.random() * 500) + 40;
       platformCount += 1;
       playerScore +=1;
+      diffCheck();
     } else { 
-      platform.y += 1;
+      platform.y += difficultyVar;
     }
   }
+
   function bgCheck (){
     if (spaceBackground.y < -400) {
       spaceBackground.y = 400;
@@ -204,55 +210,63 @@ update () {
       spaceBackground2.y -= 1;
     }
   }
+
+  function shake(){
+    cam.shake(500, .03);
 }
 
-
-CharacterMovement () {
-  player1.setVelocityX(0);
-  if (gameState == true) {
-    if (player1Controls.left.isDown) {
-      player1.setVelocityX(-500);
-      player1.anims.play('run', true);
-      player1.flipX = true;
-    } else if (player1Controls.right.isDown) {
-      player1.setVelocityX(500);
-      player1.anims.play('run', true);
-      player1.flipX = false;
-    }  else {
-      player1.setVelocityX(0);
-      player1.anims.play('idle', true);
+  function diffCheck (){
+    if (platformCount == 150) {
+      shake();
+      difficultyVar = 5;
+    } else if (platformCount == 100) {
+      shake();
+      difficultyVar = 4;
+    } else if(platformCount == 50){
+      shake();
+      difficultyVar = 3;
+    } else if (platformCount == 10) {
+      shake();
+      difficultyVar = 2;
     }
-
-    if (player1Controls.space.isDown && player1.body.onFloor()) {
-      console.log(playerScore);
-      player1.anims.play('jump', true);
-      jumpSound.play();
-      player1.setVelocityY(-750);
-      // console.log("space is pressed")
-    }
-
-    if (player1Controls.space.isDown) {
-      player1.anims.play('jump', true);
-    }
-    
-    //  if (player1.body.touching.down){
-    //   player1.anims.play('jump', true);
-    // }
   }
+
+  //Make player stick to platforms no matter how fast they go by matching platform descent (y axis)
+  function playerSticky() {
+    if (player1.body.onFloor()){
+      player1.y += difficultyVar;
+    }
+  }
+
 }
 
 
+  CharacterMovement () {
+    player1.setVelocityX(0);
+    if (gameState == true) {
+      if (player1Controls.left.isDown) {
+        player1.setVelocityX(-500);
+        player1.anims.play('run', true);
+        player1.flipX = true;
+      } else if (player1Controls.right.isDown) {
+        player1.setVelocityX(500);
+        player1.anims.play('run', true);
+        player1.flipX = false;
+      }  else {
+        player1.setVelocityX(0);
+        player1.anims.play('idle', true);
+      }
 
-// createPlatforms () {
-//   platforms = this.physics.add.group( {
-//     allowGravity: false, //
-//     immovable: true, //
-//   });//Make a group of the platforms, duplicate and add physics
-  
-//   for (let i = 0; i < 8; i++) { //Forloop to create 8 random platforms
-//     let randomX = Math.floor(Math.random() * 800) + 24;
-//     platforms.create(randomX, i * 80, 'platformPng');
-//   }
-// }
+      if (player1Controls.space.isDown && player1.body.onFloor()) {
+        console.log(playerScore);
+        player1.anims.play('jump', true);
+        jumpSound.play();
+        player1.setVelocityY(-750);
+      }
 
+      if (!player1.body.onFloor()) {
+        player1.anims.play('jump', true);
+      }
+    }
+  }
 }

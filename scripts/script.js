@@ -8,8 +8,8 @@ import GameOver from './GameOver.js';
 
 var config = {//What the gameboard is going to look like.
     type: Phaser.AUTO,// will choose either webGL or canvas as renderer
-    width: 800, //height and width of the game board
-    height: 600,
+    width: 600, //height and width of the game board
+    height: 650,
     scene:[Title, Game, GameOver], // run preload, create, update
     physics: {
         default: 'arcade',
