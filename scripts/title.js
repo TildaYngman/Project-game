@@ -1,9 +1,11 @@
 import backgroundSpace from '../assets/stars.jpeg';
 import Logo from "../assets/ASLogo.png";
 import startTheme from "url:../assets/whogivesafuck.mp3";
+import playerSheet from "../assets/sheet.png";
 
 let positions, Logo, themeMusic;
 let spaceBackground;
+let player1;
 
 
 export default class Title extends Phaser.Scene {
@@ -17,6 +19,8 @@ export default class Title extends Phaser.Scene {
             frameWidth: 500,
             frameHeight: 500
           });
+
+          this.load.spritesheet('mainCharacter', playerSheet, { frameWidth: 102, frameHeight: 110});
 
         this.load.image('logo', Logo);
 
@@ -34,8 +38,16 @@ export default class Title extends Phaser.Scene {
         //             themeMusic.play();
         //         })
         // }
-        
-        
+        player1 = this.physics.add.staticSprite(400, 143, 'mainCharacter').setScale(.8);
+        player1.setDepth(10);
+
+        this.anims.create({
+            key: 'idle',
+            frames: this.anims.generateFrameNumbers('mainCharacter', { start: 0, end: 7 }),
+            frameRate: 5,
+            repeat: -1
+          });
+          player1.anims.play('idle', true);
 
         this.anims.create({
             key: 'backgroundAnim',
@@ -65,7 +77,7 @@ export default class Title extends Phaser.Scene {
     //    this.add.text(positions.centerX, positions.centerY, 'AstroCat!').setOrigin(0.5, 0.5), { fontSize: "20px"} ;
 
 
-        const startGameButton = this.add.text(positions.centerX, positions.centerY + 100, 'Start Game!', { fill: '#FFFFFF', fontSize: 50, color: "#FFFFFF", }).setOrigin(0.5);
+        const startGameButton = this.add.text(positions.centerX, positions.centerY + 100, 'Start Game!', { fontFamily: 'Arial', fill: '#FFFFFF', fontSize: 50, color: "#FFFFFF", }).setOrigin(0.5);
         startGameButton.setInteractive({ useHandCursor: true })
         startGameButton.setDepth(10);
         
