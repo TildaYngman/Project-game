@@ -1,11 +1,12 @@
-import backgroundimage from "../assets/kitchen.jpg";
+// import backgroundimage from "../assets/kitchen.jpg";
+import backgroundSpace from '../assets/stars.jpeg';
 import player from "../assets/cat.png";
 import platform from "../assets/platform2.png";
 import playerSheet from "../assets/sheet.png";
 import lavaPool from "../assets/lava.png";
 
-let background, player1, player1Controls, lava; 
-
+let player1, player1Controls, lava;
+let spaceBackground;
 // let game;
 let platforms;  // a group of platform objects the player will jump on
 let player; // the actual player controlled sprite
@@ -30,7 +31,12 @@ constructor() {
 
 preload () {
     //What assets does the game need
-   this.load.image('background', backgroundimage);
+  this.load.spritesheet('space', backgroundSpace, {
+    frameWidth: 500,
+    frameHeight: 500
+  });
+
+  //  this.load.image('background', backgroundimage);
    this.load.image('cat', player);
    this.load.image('platformPng', platform);
    this.load.spritesheet('mainCharacter', playerSheet, { frameWidth: 102, frameHeight: 110});
@@ -39,8 +45,19 @@ preload () {
 
 
 create () {
+    this.anims.create({
+      key: 'backgroundAnim',
+      frames:this.anims.generateFrameNumbers('space', { start: 0, end: 4}),
+      framerate: 10,
+      repeat: -1
+    });
+        
+    spaceBackground = this.add.sprite(400, 300, 'space');
+    spaceBackground.setDepth(2);
+    spaceBackground.setScale(1.6);
+    spaceBackground.anims.play('backgroundAnim', true);
   
-    background = this.add.image(400, 200, 'background');
+    // background = this.add.image(400, 200, 'background');
     
     // this.createPlatforms ()
     this.physics.world.setBounds(0, 0, 800, 600);
@@ -55,8 +72,10 @@ create () {
     };
     
     platforms.create(400, 120, 'platformPng').setScale(1);
+    platforms.setDepth(10);
 
     player1 = this.physics.add.sprite(400, 50, 'mainCharacter').setScale(.8);
+    player1.setDepth(10);
 
     this.anims.create({
       key: 'run',
@@ -90,6 +109,7 @@ create () {
 
     lava.anims.play('lavaBoil', true);
     lava.setSize(800, 60, true);
+    lava.setDepth(10);
 
     this.physics.add.overlap(player1, lava, () => {
       this.add.text(300, 360, '      Game Over :(\n  Click to play again.', { fontFamily: 'Arial', fontSize: 20, color: '#000' });
