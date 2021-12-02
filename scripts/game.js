@@ -18,8 +18,9 @@ let platformCount = 0;
 let difficultyVar = 1;
 let gameState = false;
 let playerScore = 0;
-let meteorBounceX = 0.05;
+let meteorBounceY = 0.1;
 let bounceSpeed = 1;
+let rotation = 0;
 
 
 export default class Game extends Phaser.Scene {
@@ -52,12 +53,14 @@ create () {
   // PLAYER
   player1 = this.physics.add.sprite(400, 50, 'mainCharacter').setScale(.62);
   player1.setDepth(10);
-  player1.setVelocityY(600);
+  player1.setSize(80, 110, true);
+  // player1.setVelocityY(600);
   player1.setCollideWorldBounds(true);
   player1.body.checkCollision.up = false; //up, left and right Make it possible for the player to jump through the platforms
   player1.body.checkCollision.left = false;
   player1.body.checkCollision.right = false;
   player1Controls = this.input.keyboard.createCursorKeys();
+  
     
   // ANIMS
   this.anims.create({
@@ -120,26 +123,28 @@ create () {
     platforms.setDepth(10);
     
     // Lava stuff
-    lava = this.physics.add.staticSprite(300, 620, 'lava');
+    lava = this.physics.add.staticSprite(300, 650, 'lava');
     lava.anims.play('lavaBoil', true);
-    lava.setSize(800, 60, true);
+    lava.setScale(1.4);
+    lava.setSize(1000, 120, true);
     lava.setDepth(11);
 
     // Lava kills player, reset game
     this.physics.add.overlap(player1, lava, () => {
       difficultyVar = 1;
       platformCount = 0;
+      rotation = 0;
       gameMusic.stop();
       impactSound.play();
       gameOver = this.add.image(300, 325, 'gameover')
       .setOrigin(0.5, 2).setDepth(10).setScale(0.9);
 
       this.add.text(300, 325, 'Your score is: ' + playerScore, 
-      { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00ff00', fontSize:'50px' })
+      { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#fff', fontSize:'50px' })
       .setOrigin(0.5).setDepth(10);
 
       this.add.text(300, 325, 'Click to play again', 
-      { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00ff00', fontSize:'30px' })
+      { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#fff', fontSize:'30px' })
       .setOrigin(0.5, -2).setDepth(10);
 
       this.physics.pause();
@@ -181,6 +186,7 @@ create () {
     meteorite.setCollideWorldBounds(true);
     meteorite.setSize(40, 40, true);
     
+    
     // Meteor kills player
     this.physics.add.overlap(player1, meteorite, () => {
       difficultyVar = 1;
@@ -191,11 +197,11 @@ create () {
       .setOrigin(0.5, 2).setDepth(10).setScale(0.9);
 
       this.add.text(300, 325, 'Your score is: ' + playerScore, 
-      { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00ff00', fontSize:'50px' })
+      { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#fff', fontSize:'50px' })
       .setOrigin(0.5).setDepth(10);
 
       this.add.text(300, 325, 'Click to play again', 
-      { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00ff00', fontSize:'30px' })
+      { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#fff', fontSize:'30px' })
       .setOrigin(0.5, -2).setDepth(10);
 
       this.physics.pause();
@@ -209,8 +215,8 @@ create () {
     });
 
   // Display live score
-  showScore = this.add.text(50, 75, playerScore, 
-  { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00ff00', fontSize:'50px' })
+  showScore = this.add.text(50, 50, playerScore, 
+  { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#fff', fontSize:'45px' })
   .setOrigin(0.5).setDepth(8);
 }
 
@@ -248,7 +254,7 @@ update () {
 
   // Loop background for movement effect
   function backgroundScroll (){
-    if (spaceBackground.y < -400) {
+    if (spaceBackground.y < -250) {
       spaceBackground.y = 400;
       spaceBackground2.y = 800;
     } else {
@@ -256,6 +262,14 @@ update () {
       spaceBackground2.y -= 1;
     }
   }
+
+  // Spin the meteor :D
+  meteorite.angle += rotation;
+    if (rotation < 1) {
+      rotation = 2
+    } else {
+      rotation = rotation - 0.2
+    }
 
   // This function shake the camera
   function shake(){
@@ -265,23 +279,27 @@ update () {
   // Periodically increase difficulty through updating certain variables
   function diffCheck (){
     if (platformCount == 150) {
-      meteorite.setVelocityY(-700);
-      meteorite.setBounce(bounceSpeed + meteorBounceX, 1);
+      meteorite.setVelocityY(-850);
+      meteorite.setBounce(bounceSpeed + meteorBounceY, 1);
+      rotation = 20;
       shake();
       difficultyVar = 5;
     } else if (platformCount == 100) {
-      meteorite.setVelocityY(-650);
-      meteorite.setBounce(bounceSpeed + meteorBounceX, 1);
+      meteorite.setVelocityY(-750);
+      meteorite.setBounce(bounceSpeed + meteorBounceY, 1);
+      rotation = 20;
       shake();
       difficultyVar = 4;
     } else if(platformCount == 50){
-      meteorite.setVelocityY(-600);
-      meteorite.setBounce(bounceSpeed + meteorBounceX, 1);
+      meteorite.setVelocityY(-650);
+      meteorite.setBounce(bounceSpeed + meteorBounceY, 1);
+      rotation = 20;
       shake();
       difficultyVar = 3;
     } else if (platformCount == 10) {
       meteorite.setVelocityY(-550);
-      meteorite.setBounce(bounceSpeed + meteorBounceX, 1);
+      meteorite.setBounce(bounceSpeed + meteorBounceY, 1);
+      rotation = 20;
       shake();
       difficultyVar = 2;
     }
