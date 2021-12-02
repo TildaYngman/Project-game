@@ -184,6 +184,10 @@ update () {
   this.CharacterMovement();
   playerSticky();
 
+  // if (player1Controls.space.isDown) {
+  //   playerScore = playerScore;
+  // }
+
   if (player1Controls.shift.isDown) {
     gameState = true;
   };
@@ -209,6 +213,7 @@ update () {
       platform.y += difficultyVar;
     }
   }
+
 
   function bgCheck (){
     if (spaceBackground.y < -400) {
@@ -267,7 +272,7 @@ update () {
       }
 
       if (player1Controls.space.isDown && player1.body.onFloor()) {
-        console.log(playerScore);
+        
         player1.anims.play('jump', true);
         jumpSound.play();
         player1.setVelocityY(-750);
