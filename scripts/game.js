@@ -10,10 +10,8 @@ import impact from "url:../assets/impact.mp3"
 import gameOver from "../assets/gameover.png";
 
 let background, player1, player1Controls, lava, spaceSound,
-jumpSound, impactSound, spaceBackground, spaceBackground2; 
+jumpSound, impactSound, spaceBackground, spaceBackground2, gameOver; 
 
-
-let background, player1, player1Controls, lava, gameOver; 
 
 // let game;
 let platforms;  // a group of platform objects the player will jump on
