@@ -13,7 +13,7 @@ import red from "../assets/red.png";
 
 let background, player1, player1Controls, lava, spaceSound,
 jumpSound, impactSound, spaceBackground, spaceBackground2, 
-gameOver, showScore, meteorite, red, particles, emitter; 
+gameOver, showScore, meteorite, red, particles, emitter, shiftToStartText; 
 
 
 let platforms;  // a group of platform objects the player will jump on
@@ -127,6 +127,8 @@ create () {
     lava.setSize(800, 60, true);
     lava.setDepth(11);
 
+    shiftToStartText = this.add.text(300, 325, 'PRESS SHIFT TO START', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#FF6700', fontSize:'30px' }).setOrigin(0.5).setDepth(10);
+
     // Lava kills player, reset game
     this.physics.add.overlap(player1, lava, () => {
       difficultyVar = 1;
@@ -219,6 +221,7 @@ update () {
 
   if (player1Controls.shift.isDown) {
     gameState = true;
+    shiftToStartText.destroy();
   };
 
   
