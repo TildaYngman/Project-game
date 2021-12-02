@@ -208,6 +208,7 @@ update () {
       platform.x = Math.floor(Math.random() * 500) + 40;
       platformCount += 1;
       playerScore +=1;
+      showScore.setText(playerScore);
       diffCheck();
     } else { 
       platform.y += difficultyVar;
