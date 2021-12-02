@@ -10,7 +10,7 @@ import impact from "url:../assets/impact.mp3"
 import gameOver from "../assets/gameover.png";
 
 let background, player1, player1Controls, lava, spaceSound,
-jumpSound, impactSound, spaceBackground, spaceBackground2, gameOver; 
+jumpSound, impactSound, spaceBackground, spaceBackground2, gameOver, showScore; 
 
 
 // let game;
@@ -150,6 +150,8 @@ create () {
         this.scene.restart();
       })
     });
+
+    showScore = this.add.text(50, 75, playerScore, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00ff00', fontSize:'50px' }).setOrigin(0.5).setDepth(8);
 
     // Add the audio files
     
