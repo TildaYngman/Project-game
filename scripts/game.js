@@ -8,28 +8,23 @@ import bgMusic from "url:../assets/rainbowtylenol.mp3";
 import jump from "url:../assets/jump.mp3";
 import impact from "url:../assets/impact.mp3"
 import gameOver from "../assets/gameover.png";
+import comet from "../assets/comet.png";
+import red from "../assets/red.png";
 
 let background, player1, player1Controls, lava, spaceSound,
-jumpSound, impactSound, spaceBackground, spaceBackground2, gameOver, showScore; 
+jumpSound, impactSound, spaceBackground, spaceBackground2, 
+gameOver, showScore, meteorite, red, particles, emitter; 
 
 
-// let game;
 let platforms;  // a group of platform objects the player will jump on
 let player; // the actual player controlled sprite
-// let cursors;
 let platformCount = 0;
 let difficultyVar = 1;
-// let emitter;
 let gameState = false;
-// let particles;
 let playerScore = 0;
-let shook = false;
 let cam;
-// let gameOptions = {
-//   width: 800,
-//   height: 600,
-//   gravity: 800
-// }
+let meteorBounceX = 0.05;
+let bounceSpeed = 1;
 
 
 export default class Game extends Phaser.Scene {
@@ -45,7 +40,6 @@ preload () {
     frameHeight: 500
   });
 
-  //  this.load.image('background', backgroundimage);
    this.load.image('cat', player);
    this.load.image('platformPng', platform);
    this.load.spritesheet('mainCharacter', playerSheet, { frameWidth: 102, frameHeight: 110});
@@ -54,6 +48,8 @@ preload () {
    this.load.audio("jump", jump);
    this.load.audio("impact", impact);
    this.load.image('gameover', gameOver);
+   this.load.image('red', red);
+   this.load.image('comet', comet);
 }
 
 create () {
@@ -74,8 +70,6 @@ create () {
     spaceBackground2.setDepth(2);
     spaceBackground2.setScale(1.6);
     spaceBackground2.anims.play('backgroundAnim', true);
-  
-    // background = this.add.image(400, 200, 'background');
 
     background = this.add.image(400, 200, 'background');
     
@@ -96,7 +90,7 @@ create () {
     platforms.create(400, 120, 'platformPng').setScale(1);
     platforms.setDepth(10);
 
-    player1 = this.physics.add.sprite(400, 50, 'mainCharacter').setScale(.8);
+    player1 = this.physics.add.sprite(400, 50, 'mainCharacter').setScale(.62);
     player1.setDepth(10);
 
     this.anims.create({
@@ -120,6 +114,7 @@ create () {
       repeat: 2
     })
 
+    // MISTA LAVA LAVA
     lava = this.physics.add.staticSprite(300, 620, 'lava');
     this.anims.create({
       key: 'lavaBoil',
@@ -130,7 +125,7 @@ create () {
 
     lava.anims.play('lavaBoil', true);
     lava.setSize(800, 60, true);
-    lava.setDepth(10);
+    lava.setDepth(11);
 
     // Lava kills player, reset game
     this.physics.add.overlap(player1, lava, () => {
@@ -155,18 +150,15 @@ create () {
 
     // Add the audio files
     
-    // this.sound = this.sound.add("space", { volume: 0.2 });
-    // this.sound.play();
 
+    // AUDIO
     spaceSound = this.sound.add('space', { volume: 0.2 });
     spaceSound.play();
   
     jumpSound = this.sound.add("jump", { volume: 0.1 });
     impactSound = this.sound.add("impact", { volume: 0.5 });
 
-    // player1 = this.physics.add.sprite(400, 250, 'catIdle');
-    
-    // player1.setScale(0.05);
+    // PLAYER
     player1.setVelocityY(600);
     player1.setCollideWorldBounds(true);
     player1.body.checkCollision.up = false; //up, left and right Make it possible for the player to jump through the platforms
@@ -177,6 +169,42 @@ create () {
     player1Controls = this.input.keyboard.createCursorKeys();
 
     this.physics.world.checkCollision.bottom = true; //Checking collison between player and bottom of the world (enable jump)
+
+              // METEOR
+              meteorite = this.physics.add.image(400, 600, 'comet').setScale(1);
+              particles = this.add.particles('red');
+              emitter = particles.createEmitter({
+                  speed: 50,
+                  scale: { start: 0.3, end: 0 },
+                  blendMode: 'ADD'
+              });
+              emitter.startFollow(meteorite);
+              meteorite.setDepth(10);
+              particles.setDepth(10);
+          
+              meteorite.setVelocity(70, 50);
+              meteorite.setBounce(bounceSpeed, 1);
+              meteorite.setCollideWorldBounds(true);
+              meteorite.setSize(40, 40, true);
+    
+    // Meteor kills player
+    this.physics.add.overlap(player1, meteorite, () => {
+      difficultyVar = 1;
+      platformCount = 0;
+      playerScore = 0;
+      spaceSound.stop();
+      impactSound.play();
+      gameOver = this.add.image(400, 300, 'gameover').setOrigin(0.5, 2).setDepth(10);
+      this.add.text(400, 300, 'Your score is: ' + playerScore, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00ff00', fontSize:'50px' }).setOrigin(0.5).setDepth(10);
+      this.add.text(400, 300, 'Click to play again', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00ff00', fontSize:'30px' }).setOrigin(0.5, -2).setDepth(10);
+      this.physics.pause();
+      gameState = false;
+      this.anims.pauseAll();
+      this.input.on('pointerup', () => {
+        this.anims.resumeAll();
+        this.scene.restart();
+      })
+    });
 }
 
 update () {
@@ -232,15 +260,23 @@ update () {
 
   function diffCheck (){
     if (platformCount == 150) {
+      meteorite.setVelocityY(-700);
+      meteorite.setBounce(bounceSpeed + meteorBounceX, 1);
       shake();
       difficultyVar = 5;
     } else if (platformCount == 100) {
+      meteorite.setVelocityY(-650);
+      meteorite.setBounce(bounceSpeed + meteorBounceX, 1);
       shake();
       difficultyVar = 4;
     } else if(platformCount == 50){
+      meteorite.setVelocityY(-600);
+      meteorite.setBounce(bounceSpeed + meteorBounceX, 1);
       shake();
       difficultyVar = 3;
     } else if (platformCount == 10) {
+      meteorite.setVelocityY(-550);
+      meteorite.setBounce(bounceSpeed + meteorBounceX, 1);
       shake();
       difficultyVar = 2;
     }
@@ -252,9 +288,9 @@ update () {
       player1.y += difficultyVar;
     }
   }
-
 }
 
+  
 
   CharacterMovement () {
     player1.setVelocityX(0);
