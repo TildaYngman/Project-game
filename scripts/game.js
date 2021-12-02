@@ -3,7 +3,7 @@ import backgroundSpace from '../assets/stars.jpeg';
 import player from "../assets/cat.png";
 import platform from "../assets/platform2.png";
 import playerSheet from "../assets/sheet.png";
-import lavaPool from "../assets/lava.png";
+import lavaPool from "../assets/spacelava.png";
 import bgMusic from "url:../assets/rainbowtylenol.mp3";
 import jump from "url:../assets/jump.mp3";
 import impact from "url:../assets/impact.mp3"
