@@ -7,9 +7,13 @@ import lavaPool from "../assets/lava.png";
 import bgMusic from "url:../assets/rainbowtylenol.mp3";
 import jump from "url:../assets/jump.mp3";
 import impact from "url:../assets/impact.mp3"
+import gameOver from "../assets/gameover.png";
 
 let background, player1, player1Controls, lava, spaceSound,
 jumpSound, impactSound, spaceBackground, spaceBackground2; 
+
+
+let background, player1, player1Controls, lava, gameOver; 
 
 // let game;
 let platforms;  // a group of platform objects the player will jump on
@@ -48,6 +52,7 @@ preload () {
    this.load.audio("space", bgMusic);
    this.load.audio("jump", jump);
    this.load.audio("impact", impact);
+   this.load.image('gameover', gameOver);
 }
 
 create () {
@@ -68,6 +73,8 @@ create () {
     spaceBackground2.anims.play('backgroundAnim', true);
   
     // background = this.add.image(400, 200, 'background');
+
+    background = this.add.image(400, 200, 'background');
     
     // this.createPlatforms ()
     this.physics.world.setBounds(0, 0, 800, 600);
@@ -109,7 +116,6 @@ create () {
       repeat: -1
     })
 
-
     lava = this.physics.add.staticSprite(400, 550, 'lava');
     this.anims.create({
       key: 'lavaBoil',
@@ -125,7 +131,9 @@ create () {
     this.physics.add.overlap(player1, lava, () => {
       spaceSound.stop();
       impactSound.play();
-      this.add.text(300, 360, '      Game Over :(\n  Click to play again.', { fontFamily: 'Arial', fontSize: 20, color: '#000' });
+      gameOver = this.add.image(400, 300, 'gameover').setOrigin(0.5, 2);
+      this.add.text(400, 300, 'Your score is: ' + playerScore, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00ff00', fontSize:'50px' }).setOrigin(0.5);
+      this.add.text(400, 300, 'Click to play again', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00ff00', fontSize:'30px' }).setOrigin(0.5, -2);
       this.physics.pause();
       gameState = false;
       this.anims.pauseAll();
@@ -166,8 +174,7 @@ update () {
   this.CharacterMovement();
   // player1.anims.play('idle', true);
   
-  
-  if (player1Controls.space.isDown) {
+  if (player1Controls.shift.isDown) {
     gameState = true;
   };
 
