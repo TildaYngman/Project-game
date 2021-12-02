@@ -2,8 +2,9 @@ import backgroundSpace from '../assets/stars.jpeg';
 import Logo from "../assets/ASLogo.png";
 import startTheme from "url:../assets/whogivesafuck.mp3";
 import playerSheet from "../assets/sheet.png";
+import keys from "../assets/keyboard.png";
 
-let positions, Logo, themeMusic, lore;
+let positions, Logo, themeMusic, lore, keys;
 let spaceBackground;
 let player1;
 
@@ -25,6 +26,8 @@ export default class Title extends Phaser.Scene {
         this.load.image('logo', Logo);
 
         this.load.audio("theme", startTheme);
+
+        this.load.image('keys', keys);
     }
 
     create(){
@@ -81,7 +84,7 @@ export default class Title extends Phaser.Scene {
         startGameButton.setInteractive({ useHandCursor: true })
         startGameButton.setDepth(10);
         
-        
+        keys = this.add.image(positions.centerX, positions.centerY, 'keys').setOrigin(0.5, -2).setDepth(10).setScale(.2);
 
         this.input.on('pointerdown', () => {
             this.scene.stop('Title')

@@ -127,7 +127,8 @@ create () {
     lava.setSize(800, 60, true);
     lava.setDepth(11);
 
-    shiftToStartText = this.add.text(300, 325, 'PRESS SHIFT TO START', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#FF6700', fontSize:'30px' }).setOrigin(0.5).setDepth(10);
+    shiftToStartText = this.add.text(300, 325, 'PRESS SHIFT TO START', { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#FF6700', fontSize:'30px' }).setOrigin(0.5, 2).setDepth(10);
+
 
     // Lava kills player, reset game
     this.physics.add.overlap(player1, lava, () => {
@@ -218,6 +219,7 @@ update () {
   // if (player1Controls.space.isDown) {
   //   playerScore = playerScore;
   // }
+  
 
   if (player1Controls.shift.isDown) {
     gameState = true;
