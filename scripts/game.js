@@ -50,9 +50,23 @@ create () {
   // Build camera
   cam = this.cameras.main.setBounds(0, 0, 600, 650);
 
+   // Platform stuff
+   platforms = this.physics.add.group({
+    allowGravity: false,
+    immovable: true,
+  });
+
+  for (let i = 0; i < 8; i++) {
+    let randomX = Math.floor(Math.random() * 500) + 40;
+    platforms.create(randomX, i * 80, 'platformPng').setScale(1);
+  };
+  
+  platforms.create(400, 120, 'platformPng').setScale(1); //Starting platform
+  platforms.setDepth(5);
+
   // PLAYER
   player1 = this.physics.add.sprite(400, 50, 'mainCharacter').setScale(.62);
-  player1.setDepth(10);
+  player1.setDepth(11);
   player1.setSize(80, 110, true);
   // player1.setVelocityY(600);
   player1.setCollideWorldBounds(true);
@@ -108,19 +122,7 @@ create () {
     spaceBackground2.setScale(1.6);
     spaceBackground2.anims.play('backgroundAnim', true);
 
-    // Platform stuff
-    platforms = this.physics.add.group({
-      allowGravity: false,
-      immovable: true,
-    });
-
-    for (let i = 0; i < 8; i++) {
-      let randomX = Math.floor(Math.random() * 500) + 40;
-      platforms.create(randomX, i * 80, 'platformPng').setScale(1);
-    };
-    
-    platforms.create(400, 120, 'platformPng').setScale(1); //Starting platform
-    platforms.setDepth(10);
+   
     
     // Lava stuff
     lava = this.physics.add.staticSprite(300, 650, 'lava');
@@ -140,11 +142,11 @@ create () {
       .setOrigin(0.5, 2).setDepth(10).setScale(0.9);
 
       this.add.text(300, 325, 'Your score is: ' + playerScore, 
-      { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#fff', fontSize:'50px' })
+      { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00FF00', fontSize:'50px' })
       .setOrigin(0.5).setDepth(10);
 
       this.add.text(300, 325, 'Click to play again', 
-      { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#fff', fontSize:'30px' })
+      { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00FF00', fontSize:'30px' })
       .setOrigin(0.5, -2).setDepth(10);
 
       this.physics.pause();
@@ -197,11 +199,11 @@ create () {
       .setOrigin(0.5, 2).setDepth(10).setScale(0.9);
 
       this.add.text(300, 325, 'Your score is: ' + playerScore, 
-      { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#fff', fontSize:'50px' })
+      { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00FF00', fontSize:'50px' })
       .setOrigin(0.5).setDepth(10);
 
       this.add.text(300, 325, 'Click to play again', 
-      { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#fff', fontSize:'30px' })
+      { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00FF00', fontSize:'30px' })
       .setOrigin(0.5, -2).setDepth(10);
 
       this.physics.pause();
@@ -216,7 +218,7 @@ create () {
 
   // Display live score
   showScore = this.add.text(50, 50, playerScore, 
-  { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#fff', fontSize:'45px' })
+  { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif', color: '#00FF00', fontSize:'45px' })
   .setOrigin(0.5).setDepth(8);
 }
 
