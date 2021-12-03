@@ -25,6 +25,7 @@ let playerScore = 0;
 let cam;
 let meteorBounceX = 0.05;
 let bounceSpeed = 1;
+let rotation = 0;
 
 
 export default class Game extends Phaser.Scene {
