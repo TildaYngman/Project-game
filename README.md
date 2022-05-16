@@ -8,7 +8,7 @@ Timeframe: One week.
 
 Using NPM to install and manage javascript libraries.
 
-Using Parcel bundler and webserver to test and run our game.
+Using Parcel bundler to test and run our game.
 
 Using Phaser to implement game logic, powered by their physics engine.
 
