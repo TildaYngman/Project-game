@@ -2,6 +2,10 @@ On the 18th of October in 1963 a stray Parisian cat named Félicette, as a part 
 
 AstroCat is a challanging tower jump game where you have to escape the ever closing green space lava.
 
+Brief: A group project to create a javascript based game using the Phaser library to show at the Hyper Island game exhibition.
+
+Timeframe: One week.
+
 Using NPM to install and manage javascript libraries.
 
 Using Parcel bundler and webserver to test and run our game.
