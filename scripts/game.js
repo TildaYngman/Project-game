@@ -172,7 +172,7 @@ export default class Game extends Phaser.Scene {
       rotation = 0;
       gameMusic.stop();
       impactSound.play();
-      const gameOverPic = this.add
+      let gameOverPic = this.add
         .image(300, 325, "gameover")
         .setOrigin(0.5, 2)
         .setDepth(10)
@@ -241,7 +241,7 @@ export default class Game extends Phaser.Scene {
       platformCount = 0;
       gameMusic.stop();
       impactSound.play();
-      gameOver = this.add
+      gameOverPic = this.add
         .image(300, 325, "gameover")
         .setOrigin(0.5, 2)
         .setDepth(10)
