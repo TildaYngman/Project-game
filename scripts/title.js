@@ -4,10 +4,6 @@ import startTheme from "url:../assets/whogivesafuck.mp3";
 import playerSheet from "../assets/sheet.png";
 import keys from "../assets/keyboard.png";
 
-let positions;
-let spaceBackground;
-let player1;
-
 export default class Title extends Phaser.Scene {
   constructor() {
     super({ key: "titleScene" });
@@ -42,7 +38,7 @@ export default class Title extends Phaser.Scene {
     //             themeMusic.play();
     //         })
     // }
-    player1 = this.physics.add
+    const player1 = this.physics.add
       .staticSprite(400, 143, "mainCharacter")
       .setScale(0.8);
     player1.setDepth(10);
@@ -65,13 +61,13 @@ export default class Title extends Phaser.Scene {
       repeat: -1,
     });
 
-    spaceBackground = this.add.sprite(400, 300, "space");
+    const spaceBackground = this.add.sprite(400, 300, "space");
     spaceBackground.setDepth(2);
     spaceBackground.setScale(1.6);
     spaceBackground.anims.play("backgroundAnim", true);
     console.log(spaceBackground.anims);
 
-    positions = {
+    const positions = {
       centerX: this.physics.world.bounds.width / 2,
       centerY: this.physics.world.bounds.height / 2,
       topEdge: 0,
@@ -80,14 +76,14 @@ export default class Title extends Phaser.Scene {
       leftEdge: 0,
     };
 
-    Logo = this.add
+    const mainLogo = this.add
       .image(positions.centerX, positions.centerY, "logo")
       .setOrigin(0.5, 2)
       .setDepth(10);
 
     //    this.add.text(positions.centerX, positions.centerY, 'AstroCat!').setOrigin(0.5, 0.5), { fontSize: "20px"} ;
 
-    lore = this.add
+    const lore = this.add
       .text(
         45,
         300,
@@ -114,7 +110,7 @@ export default class Title extends Phaser.Scene {
     startGameButton.setInteractive({ useHandCursor: true });
     startGameButton.setDepth(10);
 
-    keys = this.add
+    const mainKeys = this.add
       .image(positions.centerX, positions.centerY, "keys")
       .setOrigin(0.5, -2)
       .setDepth(10)
