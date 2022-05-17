@@ -21,4 +21,4 @@ var config = {
   },
 };
 
-var Game = new Phaser.Game(config);
+new Phaser.Game(config);
