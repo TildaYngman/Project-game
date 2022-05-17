@@ -19,7 +19,6 @@ let player1,
   spaceBackground2,
   showScore,
   meteorite,
-  red,
   particles,
   emitter,
   platforms,
@@ -172,7 +171,7 @@ export default class Game extends Phaser.Scene {
       rotation = 0;
       gameMusic.stop();
       impactSound.play();
-      let gameOverPic = this.add
+      const gameOverPic = this.add
         .image(300, 325, "gameover")
         .setOrigin(0.5, 2)
         .setDepth(10)
@@ -241,7 +240,7 @@ export default class Game extends Phaser.Scene {
       platformCount = 0;
       gameMusic.stop();
       impactSound.play();
-      gameOverPic = this.add
+      gameOver = this.add
         .image(300, 325, "gameover")
         .setOrigin(0.5, 2)
         .setDepth(10)
