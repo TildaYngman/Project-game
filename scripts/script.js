@@ -1,4 +1,4 @@
-import Phaser from "phaser"; // Phaser through node
+import Phaser from "phaser"; // Phaser through nodeaser
 
 // import Game from './Game';
 import Title from "./title.js";
