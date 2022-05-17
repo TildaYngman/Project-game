@@ -1,5 +1,3 @@
-let positions;
-
 export default class Title extends Phaser.Scene {
 
     constructor() {
@@ -12,7 +10,7 @@ export default class Title extends Phaser.Scene {
 
     create(){
 
-        positions = {
+        const positions = {
             centerX: this.physics.world.bounds.width / 2,
             centerY: this.physics.world.bounds.height / 2,
             topEdge: 0,
